@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SeizedBots
 // @namespace    https://seizedbots.com/
-// @version      1.0.0
+// @version      1.0.1
 // @description  try to take over the world!
 // @author       SeizedThoughts
 // @match        https://backpack.tf/*
@@ -12,13 +12,16 @@
 (function() {
     'use strict';
 
-    //redirect from improper crate
-    var components = window.location.href.split("/");
-    if(components[components.length - 1] == "") components.pop();
-    var firstType = document.getElementsByClassName("stats-quality-list")[0].children[0].textContent.trim();
-    if(firstType[0] == "#" && !document.getElementsByClassName("stats-header-title")[0].textContent.trim().includes("#")){
-        components.push(firstType.substr(1));
-        location.href = components.join("/");
+    var qualities = document.getElementsByClassName("stats-quality-list")[0];
+    if(qualities && qualities.children[0]){
+        //redirect from improper crate
+        var components = window.location.href.split("/");
+        if(components[components.length - 1] == "") components.pop();
+        var firstType = qualities.children[0].textContent.trim();
+        if(firstType[0] == "#" && !document.getElementsByClassName("stats-header-title")[0].textContent.trim().includes("#")){
+            components.push(firstType.substr(1));
+            location.href = components.join("/");
+        }
     }
 
     function getAttributeValue(item, attr){
