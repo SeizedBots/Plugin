@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SeizedBots
 // @namespace    https://seizedbots.com/
-// @version      1.0.1
+// @version      1.1.0
 // @description  try to take over the world!
 // @author       SeizedThoughts
 // @match        https://backpack.tf/*
