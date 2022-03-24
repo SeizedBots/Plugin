@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SeizedBots
 // @namespace    https://seizedbots.com/
-// @version      1.1.0
+// @version      1.1.1
 // @description  try to take over the world!
 // @author       SeizedThoughts
 // @match        https://backpack.tf/*
@@ -152,8 +152,6 @@
         logo.src = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c0/c0fe2bef847c38b5c5240407f6829a62ab7b98f7_full.jpg";
         button.appendChild(logo);
 
-        button.style.display = "block";
-
         return button;
     }
 
@@ -172,6 +170,8 @@
         logo.src = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c0/c0fe2bef847c38b5c5240407f6829a62ab7b98f7_full.jpg";
         logo.width = 50;
         logo.height = 50;
+
+        button.style.display = "block";
         button.appendChild(logo);
 
         return button;
