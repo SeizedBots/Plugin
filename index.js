@@ -10,8 +10,6 @@
 // ==/UserScript==
 
 (function() {
-    'use strict';
-
     var qualities = document.getElementsByClassName("stats-quality-list")[0];
     if(qualities && qualities.children[0]){
         //redirect from improper crate
@@ -140,41 +138,64 @@
         return attributesToSku(itemToAttributes(item));
     }
 
-    if($(".price-boxes").length > 0){
-        var item = $(".item")[0];
-        var seizedBotsItem = document.createElement("a");
-        seizedBotsItem.classList = "price-box";
-        //seizedBotsItem.target = "_blank";
-        seizedBotsItem.title = "SeizedBots.com";
-        seizedBotsItem.href = "https://seizedbots.com/items/" + getSku(item);
-
-        seizedBotsItem.setAttribute("data-tip", "top");
+    function makePopOverButton(urls){
+        var button = document.createElement("a");
+        button.classList = "btn btn-default btn-xs";
+        button.title = "SeizedBots";
+        button.onclick = function(){
+            for(let i = 0; i < urls.length; i++){
+                window.open(urls[i], "_blank");
+            }
+        }
 
         var logo = document.createElement("img");
         logo.src = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c0/c0fe2bef847c38b5c5240407f6829a62ab7b98f7_full.jpg";
-        seizedBotsItem.appendChild(logo);
+        button.appendChild(logo);
 
-        $(".price-boxes")[0].appendChild(seizedBotsItem);
+        button.style.display = "block";
+
+        return button;
+    }
+
+    function makePriceBoxButton(urls){
+        var button = document.createElement("a");
+        button.classList = "price-box";
+        button.title = urls.length === 1 ? "SeizedBots" : "Open " + urls.length + " SeizedBots Pages";
+        button.onclick = function(){
+            for(let i = 0; i < urls.length; i++){
+                window.open(urls[i], "_blank");
+            }
+        }
+        button.setAttribute("data-tip", "top");
+
+        var logo = document.createElement("img");
+        logo.src = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c0/c0fe2bef847c38b5c5240407f6829a62ab7b98f7_full.jpg";
+        logo.width = 50;
+        logo.height = 50;
+        button.appendChild(logo);
+
+        return button;
+    }
+
+    if($(".price-boxes").length > 0){
+        $(".price-boxes")[0].appendChild(makePriceBoxButton(["https://seizedbots.com/items/" + getSku($(".item")[0])]));
     }
 
     setInterval(() => {
         Array.from($(".popover")).forEach((element) => {
-            if(!Array.from(element.children[2].children[1].children).some((link) => link.title === "SeizedBots.com")){
-                var item = Array.from(element.parentNode.children).find((item) => getAttributeValue(item.attributes, "aria-describedby") === element.id);
-                var seizedBotsItem = document.createElement("a");
-                seizedBotsItem.classList = "btn btn-default btn-xs";
-                seizedBotsItem.target = "_blank";
-                seizedBotsItem.title = "SeizedBots.com";
-                seizedBotsItem.href = "https://seizedbots.com/items/" + getSku(item);
-
-                var logo = document.createElement("img");
-                logo.src = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c0/c0fe2bef847c38b5c5240407f6829a62ab7b98f7_full.jpg";
-                seizedBotsItem.appendChild(logo);
-
-                element.children[2].children[1].appendChild(seizedBotsItem);
+            if(!Array.from(element.children[2].children[1].children).some((link) => link.title === "SeizedBots")){
+                element.children[2].children[1].appendChild(makePopOverButton(["https://seizedbots.com/items/" + getSku(Array.from(element.parentNode.children).find((item) => getAttributeValue(item.attributes, "aria-describedby") === element.id))]));
             }
         });
     }, 100);
+
+    //bulk open pages
+
+    var parts = window.location.pathname.split("/");
+
+    if(["effect", "unusual"].includes(parts[1]) && parts.length === 3){
+        document.getElementsByClassName("input-group-btn")[0].appendChild(makePriceBoxButton(Array.from(document.getElementsByClassName("item")).map((item) => "https://seizedbots.com/items/" + getSku(item))));
+    }
 })();
 
 /*
