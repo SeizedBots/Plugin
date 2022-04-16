@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SeizedBots
 // @namespace    https://seizedbots.com/
-// @version      1.1.1
+// @version      1.2.0
 // @description  try to take over the world!
 // @author       SeizedThoughts
 // @match        https://backpack.tf/*
@@ -178,7 +178,22 @@
     }
 
     if($(".price-boxes").length > 0){
-        $(".price-boxes")[0].appendChild(makePriceBoxButton(["https://seizedbots.com/items/" + getSku($(".item")[0])]));
+        let killstreakable = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,35,36,37,38,39,40,41,42,43,44,45,46,56,57,58,59,60,61,127,128,129,130,131,132,133,140,141,142,153,154,155,159,163,171,172,173,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,214,215,220,221,222,224,225,226,228,230,231,232,237,239,265,266,304,305,307,308,310,311,312,317,325,326,327,329,331,348,349,351,354,355,356,357,401,402,404,405,406,411,412,413,414,415,416,424,425,426,433,441,442,444,447,448,449,450,452,457,460,461,466,474,482,513,525,526,527,528,572,574,587,588,589,593,594,595,608,609,638,642,648,649,654,656,658,659,660,661,662,663,664,665,669,727,730,735,736,737,739,740,741,751,752,772,773,775,792,793,794,795,796,797,798,799,800,801,802,803,804,805,806,807,808,809,810,811,812,813,831,832,833,834,850,851,863,880,881,882,883,884,885,886,887,888,889,890,891,892,893,894,895,896,897,898,899,900,901,902,903,904,905,906,907,908,909,910,911,912,913,914,915,916,933,939,947,957,958,959,960,961,962,963,964,965,966,967,968,969,970,971,972,973,974,996,997,998,999,1000,1001,1002,1003,1004,1005,1006,1007,1013,1078,1079,1080,1081,1082,1083,1084,1085,1086,1092,1098,1099,1100,1101,1102,1103,1104,1105,1121,1127,1141,1142,1143,1144,1145,1146,1149,1150,1151,1152,1153,1178,1179,1180,1181,1190,30474,30665,30666,30667,30668,30758];
+        let attributes = itemToAttributes($(".item")[0]);
+        $(".price-boxes")[0].appendChild(makePriceBoxButton(["https://seizedbots.com/items/" + attributesToSku(attributes)]));
+        console.log(attributes.defindex);
+        if(killstreakable.includes(parseInt(attributes.defindex))){
+            let killstreakLinks = [];
+            attributes.killstreak = 1;
+            killstreakLinks.push("https://seizedbots.com/items/" + attributesToSku(attributes));
+            attributes.killstreak = 2;
+            killstreakLinks.push("https://seizedbots.com/items/" + attributesToSku(attributes));
+            attributes.killstreak = 3;
+            killstreakLinks.push("https://seizedbots.com/items/" + attributesToSku(attributes));
+            let text = document.createElement("p");
+            text.innerHTML = "Open Killstreak Variants";
+            $(".price-boxes")[0].appendChild(makePriceBoxButton(killstreakLinks)).appendChild(text);
+        }
     }
 
     setInterval(() => {
